@@ -10,7 +10,7 @@ export class Observable {
         })
     }
 
-    async emit(v) {
+    emit(v) {
         if (v instanceof Array) {
             for (let i of v) {
                 this.emit(i)
@@ -19,8 +19,13 @@ export class Observable {
             this.pipes.reduce((_v, fn) => fn(_v), v)
         }
     }
-    pipe(fn) {
-        this.pipes.push(fn)
+    pipe(fn, _prepend=false) {
+        if(_prepend){
+            this.pipes.unshift(fn)
+        }
+        else{
+            this.pipes.push(fn)
+        }
         return this
     }
 
@@ -62,6 +67,14 @@ export class Observable {
             new_o.emit(v)
             return v
         })
+        return new_o
+    }
+    copy() {
+        const new_o = new Observable()
+        this.pipe(v => {
+            new_o.emit(v)
+            return v
+        }, true)
         return new_o
     }
 
