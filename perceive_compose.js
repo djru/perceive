@@ -1,6 +1,9 @@
 import {Observable} from './perceive'
+
+const filter_obs = (a) => a.filter(a => a instanceof Observable)
+
 export const merge = (...args) => {
-    args = args.filter(a => a instanceof Observable)
+    args = filter_obs(args)
     const new_o = new Observable()
     for (let o of args) {
         o.dip((v) => {
@@ -9,9 +12,9 @@ export const merge = (...args) => {
     }
 }
 
-export const race = () => {
+export const race = (...args) => {
     let lock = false
-    args = args.filter(a => a instanceof Observable)
+    args = filter_obs(args)
     const new_o = new Observable()
     for (let o of args) {
         m.dip((v) => {
@@ -26,7 +29,7 @@ export const race = () => {
 
 export const buffer = (...args) => {
     const new_o = new Observable()
-    args = args.filter(a => a instanceof Observable)
+    args = filter_obs(args)
     let state = Array(args.length)
     for (let i of [...state.keys()]) {
         args[i].dip((v) => {
@@ -40,9 +43,9 @@ export const buffer = (...args) => {
 }
 
 
-export const zip = (...args) => {
+export const pairwise = (...args) => {
     const new_o = new Observable()
-    args = args.filter(a => a instanceof Observable)
+    args = filter_obs(args)
     const state = Array(args.length)
     for (let i of [...state.keys()]) {
         args[i].dip((v) => {
