@@ -3,7 +3,7 @@ export class Observable {
         this.pipes = []
     }
 
-    dip(fn) {
+    subscribe(fn) {
         this.pipe((v) => {
             fn(v)
             return v
