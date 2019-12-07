@@ -24,13 +24,27 @@ export const race = () => {
     return new_o
 }
 
+export const buffer = (...args) => {
+    const new_o = new Observable()
+    args = args.filter(a => a instanceof Observable)
+    let state = Array(args.length)
+    for (let i of [...state.keys()]) {
+        args[i].dip((v) => {
+            state[i] = v
+            if(!state.find(undefined)){
+                new_o.emit(state)
+                state = Array(args.length)
+            }
+        })
+    }
+}
+
 
 export const zip = (...args) => {
     const new_o = new Observable()
     args = args.filter(a => a instanceof Observable)
     const state = Array(args.length)
     for (let i of [...state.keys()]) {
-        console.log(args[i])
         args[i].dip((v) => {
             state[i] = v
             new_o.emit(state)
