@@ -2,7 +2,7 @@
   "name": "perceive",
   "version": "1.0.0",
   "description": "observables for normal people",
-  "main": "index.js",
+  "main": "perceive.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
