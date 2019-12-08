@@ -54,7 +54,7 @@ class Observable {
         return this
     }
 
-    store() {
+    collect() {
         this.reduce((a, v) => {
             a.push(v)
             return a
