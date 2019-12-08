@@ -3,9 +3,6 @@ name: Publish Node.js Package
 on:
   release:
     types: [created, updated]
-  push:
-    branches:    
-    - 'master'
 
 jobs:
   build:
