@@ -1,4 +1,4 @@
-export class Observable {
+class Observable {
     constructor() {
         this.pipes = []
     }
@@ -31,7 +31,7 @@ export class Observable {
 
     debug() {
         this.pipe(v => {
-            console.log(v)
+            console.log(...arguments, v)
             return v
         })
         return this
@@ -82,10 +82,3 @@ export class Observable {
         this.pipes = []
     }
 }
-
-export default Observable
-
-// let t = new Observable()
-// t.timer(1000)
-// t.listen().store().pipe(v => `val: ${v}`).debug()
-// t.listen().pipe(v => v / v).debug()
