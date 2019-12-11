@@ -1,4 +1,4 @@
-export default class Observable {
+export default class Stream {
     constructor(source = null) {
         this.subscribers = []
         this.source = parent
@@ -38,7 +38,7 @@ export default class Observable {
     }
 
     pipe(...pipes) {
-        const o = new Observable(this)
+        const o = new Stream(this)
         this.subscribe(v => {
             const piped_value = pipes.reduce((a, f) => f(a), v)
             o.emit(piped_value)
@@ -48,7 +48,7 @@ export default class Observable {
 
     debounce(t) {
         let ts = Date.now()
-        const o = new Observable(this)
+        const o = new Stream(this)
         this.subscribe(v => {
             if (Date.now() > ts + t) {
                 ts = Date.now()
@@ -60,7 +60,7 @@ export default class Observable {
 
     reduce(callback, init_val) {
         let stored_val = init_val
-        const o = new Observable(this)
+        const o = new Stream(this)
         this.subscribe(v => {
             stored_val = callback(stored_val, v)
             o.emit(stored_val)
@@ -69,7 +69,7 @@ export default class Observable {
     }
 
     debug() {
-        const o = new Observable(this)
+        const o = new Stream(this)
         this.subscribe(v => {
             console.log(v)
             o.emit(v)
@@ -78,7 +78,7 @@ export default class Observable {
     }
 
     collect() {
-        const o = new Observable(this)
+        const o = new Stream(this)
         const state = []
         this.subscribe(v => {
             state.push(v)
@@ -89,19 +89,19 @@ export default class Observable {
 }
 
 
-export const merge = (...observables) => {
-    const o = new Observable()
-    for (let _o of observables) {
+export const merge = (...Streams) => {
+    const o = new Stream()
+    for (let _o of Streams) {
         _o.subscribe(v => {
             o.emit(v)
         })
     }
     return o
 }
-export const race = (...observables) => {
-    const o = new Observable()
+export const race = (...Streams) => {
+    const o = new Stream()
     let lock = false
-    for (let _o of observables) {
+    for (let _o of Streams) {
         _o.subscribe(v => {
             if (!lock) {
                 lock = true
@@ -112,17 +112,17 @@ export const race = (...observables) => {
     return o
 }
 
-export const combinedLatest = (...observables) => {
-    let state = Array(observables.length).fill(null)
-    const o = new Observable()
+export const combinedLatest = (...Streams) => {
+    let state = Array(Streams.length).fill(null)
+    const o = new Stream()
     const i = 0
-    for (let _o of observables) {
+    for (let _o of Streams) {
         let _i = i
         _o.subscribe(v => {
             state[_i] = v
             if (state.every(v => v !== null)) {
                 o.emit(state)
-                state = Array(observables.length).fill(null)
+                state = Array(Streams.length).fill(null)
             }
         })
     }
@@ -130,7 +130,7 @@ export const combinedLatest = (...observables) => {
 }
 
 export const timer = (ms) => {
-    const o = new Observable()
+    const o = new Stream()
     setInterval(() => {
         o.emit(Date.now())
     }, ms)
