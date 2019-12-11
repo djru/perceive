@@ -1,6 +1,6 @@
 {
   "name": "perceive-js",
-  "version": "1.0.0",
+  "version": "1.0.1-a",
   "description": "observables for normal people",
   "main": "perceive.js",
   "scripts": {
