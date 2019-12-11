@@ -1,4 +1,4 @@
-# perceive
+# perceive.js
 A Javascript stream/observable library I'm building for fun.
 
 ❌❌ WORK IN PROGRESS, DON'T USE YET!! ❌❌
