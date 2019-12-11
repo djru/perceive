@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/djru/perceive.git"
   },
-  "author": "",
+  "author": "dan ruswick",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/djru/perceive/issues"
