@@ -1,7 +1,7 @@
 export default class Stream {
-    constructor(source = null) {
+    constructor(source=null) {
         this.subscribers = []
-        this.source = parent
+        this.source = source
     }
     subscribe(callback) {
         let active = true
