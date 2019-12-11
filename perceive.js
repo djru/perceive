@@ -89,19 +89,19 @@ export default class Stream {
 }
 
 
-export const merge = (...Streams) => {
+export const merge = (...streams) => {
     const o = new Stream()
-    for (let _o of Streams) {
+    for (let _o of streams) {
         _o.subscribe(v => {
             o.emit(v)
         })
     }
     return o
 }
-export const race = (...Streams) => {
+export const race = (...streams) => {
     const o = new Stream()
     let lock = false
-    for (let _o of Streams) {
+    for (let _o of streams) {
         _o.subscribe(v => {
             if (!lock) {
                 lock = true
@@ -112,17 +112,17 @@ export const race = (...Streams) => {
     return o
 }
 
-export const combinedLatest = (...Streams) => {
-    let state = Array(Streams.length).fill(null)
+export const combinedLatest = (...streams) => {
+    let state = Array(streams.length).fill(null)
     const o = new Stream()
     const i = 0
-    for (let _o of Streams) {
+    for (let _o of streams) {
         let _i = i
         _o.subscribe(v => {
             state[_i] = v
             if (state.every(v => v !== null)) {
                 o.emit(state)
-                state = Array(Streams.length).fill(null)
+                state = Array(streams.length).fill(null)
             }
         })
     }
