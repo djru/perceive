@@ -129,10 +129,18 @@ export const combinedLatest = (...streams) => {
     return o
 }
 
-export const timer = (ms) => {
+export const fromTimer = (ms) => {
     const o = new Stream()
     setInterval(() => {
         o.emit(Date.now())
     }, ms)
+    return o
+}
+
+export const fromEvent = (event, node=document) => {
+    const o = new Stream()
+    document.addEventListener(event, (e) => {
+        o.emit(e)
+    })
     return o
 }
